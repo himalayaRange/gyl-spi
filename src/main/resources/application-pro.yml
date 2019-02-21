@@ -21,7 +21,7 @@ spring:
             login-username: root
             login-password: supAdmin@888
          driver-class-name: com.mysql.jdbc.Driver
-         url: jdbc:mysql://192.168.16.8:3306/gyl?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true&amp;zeroDateTimeBehavior=convertToNull       
+         url: jdbc:mysql://127.0.0.1:3306/gyl?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true&amp;zeroDateTimeBehavior=convertToNull       
          username: root
          password: 123456
          # 配置初始化大小|最小|最大
