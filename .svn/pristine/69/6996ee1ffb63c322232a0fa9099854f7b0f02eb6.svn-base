@@ -1,0 +1,176 @@
+package com.ymy.xxb.module.e3.controller;
+
+import java.io.IOException;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.Signature;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
+import com.ymy.xxb.module.ModuleConstant;
+import com.ymy.xxb.module.e3.bean.E3ConfigurationBean;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+@Controller
+@RequestMapping(ModuleConstant.API_MODULE_E3_PREFIX)
+public class CompletionOrderController{
+		@Autowired
+		private E3ConfigurationBean e3ConfigurationBean;
+		
+		private static final Logger logger = LoggerFactory.getLogger(CompletionOrderController.class);
+		
+		private static final MediaType mediaType = MediaType.parse("application/json;charset=utf-8");
+	
+		private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+	   /**
+	    * 签名原文
+	    * @param ak
+	    * @param pk
+	    * @param number
+	    * @param date
+	    * @param data
+	    * @return
+	    */
+	   public String orgSignSrc(String ak , String pk , int number , String date , String data) {
+
+		   return "AK=" + ak + "&PK=" + pk + "&Number=" + number + "&Date=" + date + "&Data=" + data;
+	   }
+	   
+	   /**
+	    * 构建获取Token产容易参数
+	    * @param paramter
+	    * @return
+	    */
+	   public Map<String,Object> buildTokenParamter() {
+		   Map<String,Object> userInfoMap = Maps.newHashMap();
+		   userInfoMap.put("username", e3ConfigurationBean.getUsername());
+		   userInfoMap.put("password", e3ConfigurationBean.getPassword());
+		   return userInfoMap;
+	   }
+	   
+		/**
+		 * 构建公共参数
+		 * @return
+		 */
+		public Map<String,Object> buildCommonParamter() {
+			Map<String,Object> commonParamter = new ConcurrentHashMap<String,Object>();
+			int number = (int)((Math.random()*9+1)*1000);
+			String date = sdf.format(new Date());
+			commonParamter.put("number", number);
+			commonParamter.put("date", date);
+			return commonParamter;
+		}
+		
+		
+	    /**
+		 * 获取中台Token
+		 * @return
+		 */
+		@RequestMapping("/getAccessToken")
+		@ResponseBody
+		public  String getToken() {
+			Map<String,String> httpRequestMap = Maps.newHashMap();
+			// 构建公共参数
+			Map<String, Object> buildCommonParamter = buildCommonParamter();
+			// 构建差异参数
+			Map<String, Object> buildTokenParamter = buildTokenParamter();
+			// Map - > String
+			//String dataContent = buildMapDataToStringData(buildTokenParamter);
+			//String dataContent = "[{\"password\":\"8888\",\"username\":\"admin\"}]";
+			String dataContent = "[" + JSON.toJSONString(buildTokenParamter) + "]";
+			String date = buildCommonParamter.get("date").toString();
+			int number = Integer.valueOf(buildCommonParamter.get("number").toString());
+			// 获取的签名
+			String sign = sign(e3ConfigurationBean.getPrivateKey(), e3ConfigurationBean.getAk(), e3ConfigurationBean.getPk(), number , date , dataContent);
+			// 封装Http请求参数
+			httpRequestMap.put("ak", e3ConfigurationBean.getAk());
+			httpRequestMap.put("pk", e3ConfigurationBean.getPk());
+			httpRequestMap.put("number", String.valueOf(number));
+			httpRequestMap.put("date", date);
+			httpRequestMap.put("sign", sign);
+			httpRequestMap.put("dataContent", dataContent);
+			httpRequestMap.put("token", "");
+			//String result = DingDingPush.post(httpURL_Token, httpRequestMap);
+			String result = okHttp3Post(e3ConfigurationBean.getTokenURL(), JSON.toJSONString(httpRequestMap));
+			
+			return result;
+		}
+		
+		/**
+		 * 将Map数据拼接成String,中间用&连接
+		 * @param mapData
+		 * @return
+		 */
+		public String buildMapDataToStringData(Map<String,Object> mapData) {
+			StringBuilder sb = new StringBuilder();
+			for(Map.Entry<String, Object> entry : mapData.entrySet()) {
+				String key = entry.getKey();
+				Object value = entry.getValue();
+				if("".equals(sb.toString())) {
+					sb = sb.append(key).append("=").append(value);
+				} else {
+					sb = sb.append("&").append(key).append("=").append(value);
+				}
+			}
+			return sb.toString();
+		}
+		
+		/**
+		 * MD5WithRSA签名
+		 * @param privateKey
+		 * @param publicKey
+		 * @param pk
+		 * @param number
+		 * @param date
+		 * @param otherParam
+		 * @return
+		 */
+	   public String sign(String privateKey, String publicKey, String pk, int number, String date, String otherParam) {
+		    logger.info("AK:" + publicKey);
+		    logger.info("PK:" + pk);
+		    String signSrc = orgSignSrc(publicKey, pk, number, date, otherParam);
+		    byte[] privateByte = Base64.decodeBase64(privateKey);
+		    PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(privateByte);
+		    try {
+		      KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+		      PrivateKey privateK = keyFactory.generatePrivate(pkcs8KeySpec);
+		      Signature signature = Signature.getInstance("MD5withRSA");
+		      signature.initSign(privateK);
+		      signature.update(signSrc.getBytes());
+		      return Base64.encodeBase64String(signature.sign());
+		    } catch (Exception ex) {
+		      logger.error("sign exception : " + ex.getMessage());
+		    }
+		    return null;
+		  }
+		
+	   public String okHttp3Post(String url , String json ) {
+		   OkHttpClient client = new OkHttpClient();
+		   RequestBody body = RequestBody.create(mediaType, json);
+		   Request request = new Request.Builder().url(url).post(body).build();
+		   Response execute;
+			try {
+				execute = client.newCall(request).execute();
+				return execute.body().string();
+			} catch (IOException e) {
+				e.printStackTrace();
+			 }
+			return null;
+	   }
+
+}

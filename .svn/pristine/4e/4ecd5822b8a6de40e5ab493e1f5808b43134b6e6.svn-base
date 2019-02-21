@@ -1,0 +1,6 @@
+# io.jwt property configuration
+jwt.tokenType=bearer
+jwt.audience=RESTAPI@supAdmin
+jwt.issuser=1610651717@qq.com
+jwt.expire=1800000
+jwt.privateKey=HFGEPWE>FPEMQseLMNQNQJQK#Erow32~3493465fdfLWPWSFHEOPFWEBM<RPE

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ymy.xxb.module.e3.mapper.MakeMxScheduleCompletMapper" >
+    <resultMap id="BaseResultMap" type="com.ymy.xxb.module.e3.entity.MakeMxScheduleComplet" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="wg_no" property="wgNo" jdbcType="VARCHAR" />
+        <result column="make_no" property="makeNo" jdbcType="VARCHAR" />
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+        <result column="kh" property="kh" jdbcType="VARCHAR" />
+        <result column="color_code" property="colorCode" jdbcType="VARCHAR" />
+        <result column="gc" property="gc" jdbcType="CHAR" />
+        <result column="xs_num" property="xsNum" jdbcType="INTEGER" />
+        <result column="s_size" property="sNum" jdbcType="INTEGER" />
+        <result column="m_size" property="mNum" jdbcType="INTEGER" />
+        <result column="l_size" property="lNum" jdbcType="INTEGER" />
+        <result column="xl_num" property="xlNum" jdbcType="INTEGER" />
+        <result column="total_num" property="totalNum" jdbcType="INTEGER" />
+        <result column="complet_time" property="completTime" jdbcType="TIMESTAMP" />
+        <result column="zt_status" property="ztStatus" jdbcType="CHAR" />
+        <result column="zt_synchronized_time" property="ztSynchronizedTime" jdbcType="TIMESTAMP" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+        <result column="modify_user" property="modifyUser" jdbcType="VARCHAR" />
+        <result column="is_type" property="isType" jdbcType="VARCHAR" />
+        <result column="audit_status" property="auditStatus" jdbcType="VARCHAR"/>
+        <result column="entrepot_nature" property="entrepotNature" jdbcType="VARCHAR"/>
+        <result column="memon" property="memon" jdbcType="VARCHAR"/>
+        <result column="scheduleId" property="schedule_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, wg_no, make_no, order_no, kh, color_code, gc, xs_num, s_num, m_num, l_num, xl_num, 
+        total_num, complet_time, zt_status, zt_synchronized_time, create_time, create_user, 
+        modify_time, modify_user,audit_status
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from make_mx_schedule_complet
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    
+    <select id="selectByWgNo" resultMap="BaseResultMap" parameterType="String">
+    	select
+    	<include refid="Base_Column_List" />
+        from make_mx_schedule_complet
+        where wg_no = #{wgNo,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from make_mx_schedule_complet
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.ymy.xxb.module.e3.entity.MakeMxScheduleComplet" >
+        insert into make_mx_schedule_complet (id, wg_no, make_no, 
+            order_no, kh, color_code, 
+            gc, xs_num, s_num, m_num, 
+            l_num, xl_num, total_num, 
+            complet_time, zt_status, zt_synchronized_time, 
+            create_time, create_user, modify_time, 
+            modify_user)
+        values (#{id,jdbcType=BIGINT}, #{wgNo,jdbcType=VARCHAR}, #{makeNo,jdbcType=VARCHAR}, 
+            #{orderNo,jdbcType=VARCHAR}, #{kh,jdbcType=VARCHAR}, #{colorCode,jdbcType=VARCHAR}, 
+            #{gc,jdbcType=CHAR}, #{xsNum,jdbcType=INTEGER}, #{sNum,jdbcType=INTEGER}, #{mNum,jdbcType=INTEGER}, 
+            #{lNum,jdbcType=INTEGER}, #{xlNum,jdbcType=INTEGER}, #{totalNum,jdbcType=INTEGER}, 
+            #{completTime,jdbcType=TIMESTAMP}, #{ztStatus,jdbcType=CHAR}, #{ztSynchronizedTime,jdbcType=TIMESTAMP}, 
+            #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
+            #{modifyUser,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ymy.xxb.module.e3.entity.MakeMxScheduleComplet" >
+        insert into make_mx_schedule_complet
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="wgNo != null" >
+                wg_no,
+            </if>
+            <if test="makeNo != null" >
+                make_no,
+            </if>
+            <if test="orderNo != null" >
+                order_no,
+            </if>
+            <if test="kh != null" >
+                kh,
+            </if>
+            <if test="colorCode != null" >
+                color_code,
+            </if>
+            <if test="gc != null" >
+                gc,
+            </if>
+            <if test="xsNum != null" >
+                xs_num,
+            </if>
+            <if test="s_size != null" >
+                s_num,
+            </if>
+            <if test="m_size != null" >
+                m_num,
+            </if>
+            <if test="l_size != null" >
+                l_num,
+            </if>
+            <if test="xlNum != null" >
+                xl_num,
+            </if>
+            <if test="totalNum != null" >
+                total_num,
+            </if>
+            <if test="completTime != null" >
+                complet_time,
+            </if>
+            <if test="ztStatus != null" >
+                zt_status,
+            </if>
+            <if test="ztSynchronizedTime != null" >
+                zt_synchronized_time,
+            </if>
+                create_time,
+            <if test="createUser != null" >
+                create_user,
+            </if>
+            <if test="modifyTime != null" >
+                modify_time,
+            </if>
+            <if test="modifyUser != null" >
+                modify_user,
+            </if>
+             <if test="isType != null" >
+                is_type,
+            </if>
+             <if test="memon != null" >
+                memon,
+            </if>
+            <if test="auditStatus != null" >
+                audit_status,
+            </if>
+            <if test="entrepotNature != null" >
+                entrepot_nature,
+            </if>
+            <if test="scheduleId != null" >
+                schedule_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="wgNo != null" >
+                #{wgNo,jdbcType=VARCHAR},
+            </if>
+            <if test="makeNo != null" >
+                #{makeNo,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNo != null" >
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="kh != null" >
+                #{kh,jdbcType=VARCHAR},
+            </if>
+            <if test="colorCode != null" >
+                #{colorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="gc != null" >
+                #{gc,jdbcType=CHAR},
+            </if>
+            <if test="xsNum != null" >
+                #{xsNum,jdbcType=INTEGER},
+            </if>
+            <if test="s_size != null" >
+                #{s_size,jdbcType=VARCHAR},
+            </if>
+            <if test="m_size != null" >
+                #{m_size,jdbcType=VARCHAR},
+            </if>
+            <if test="l_size != null" >
+                #{l_size,jdbcType=VARCHAR},
+            </if>
+            <if test="xlNum != null" >
+                #{xlNum,jdbcType=INTEGER},
+            </if>
+            <if test="totalNum != null" >
+                #{totalNum,jdbcType=INTEGER},
+            </if>
+            <if test="completTime != null" >
+                #{completTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ztStatus != null" >
+                #{ztStatus,jdbcType=CHAR},
+            </if>
+            <if test="ztSynchronizedTime != null" >
+                #{ztSynchronizedTime,jdbcType=TIMESTAMP},
+            </if>
+            sysdate(),
+            <if test="createUser != null" >
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null" >
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyUser != null" >
+                #{modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="isType != null" >
+                #{isType,jdbcType=VARCHAR},
+            </if>
+             <if test="memon != null" >
+                #{memon,jdbcType=VARCHAR},
+            </if>
+            <if test="auditStatus != null" >
+                #{auditStatus,jdbcType=VARCHAR},
+            </if>
+             <if test="entrepotNature != null" >
+                #{entrepotNature,jdbcType=VARCHAR},
+            </if>
+            <if test="scheduleId != null" >
+                #{scheduleId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ymy.xxb.module.e3.entity.MakeMxScheduleComplet" >
+        update make_mx_schedule_complet
+        <set >
+            <if test="wgNo != null" >
+                wg_no = #{wgNo,jdbcType=VARCHAR},
+            </if>
+            <if test="makeNo != null" >
+                make_no = #{makeNo,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNo != null" >
+                order_no = #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="kh != null" >
+                kh = #{kh,jdbcType=VARCHAR},
+            </if>
+            <if test="colorCode != null" >
+                color_code = #{colorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="gc != null" >
+                gc = #{gc,jdbcType=CHAR},
+            </if>
+            <if test="xsNum != null" >
+                xs_num = #{xsNum,jdbcType=INTEGER},
+            </if>
+            <if test="s_size != null" >
+                s_num = #{s_size,jdbcType=INTEGER},
+            </if>
+            <if test="m_size != null" >
+               m_num = #{m_size,jdbcType=INTEGER},
+            </if>
+            <if test="l_size != null" >
+               l_num = #{l_size,jdbcType=INTEGER},
+            </if>
+            <if test="xlNum != null" >
+                xl_num = #{xlNum,jdbcType=INTEGER},
+            </if>
+            <if test="totalNum != null" >
+                total_num = #{totalNum,jdbcType=INTEGER},
+            </if>
+            <if test="completTime != null" >
+                complet_time = #{completTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ztStatus != null" >
+                zt_status = #{ztStatus,jdbcType=CHAR},
+            </if>
+            <if test="ztSynchronizedTime != null" >
+                zt_synchronized_time = #{ztSynchronizedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUser != null" >
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null" >
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyUser != null" >
+                modify_user = #{modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="entrepotNature != null" >
+                entrepot_nature = #{entrepotNature,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ymy.xxb.module.e3.entity.MakeMxScheduleComplet" >
+        update make_mx_schedule_complet
+        set wg_no = #{wgNo,jdbcType=VARCHAR},
+            make_no = #{makeNo,jdbcType=VARCHAR},
+            order_no = #{orderNo,jdbcType=VARCHAR},
+            kh = #{kh,jdbcType=VARCHAR},
+            color_code = #{colorCode,jdbcType=VARCHAR},
+            gc = #{gc,jdbcType=CHAR},
+            xs_num = #{xsNum,jdbcType=INTEGER},
+            s_num = #{sNum,jdbcType=INTEGER},
+            m_num = #{mNum,jdbcType=INTEGER},
+            l_num = #{lNum,jdbcType=INTEGER},
+            xl_num = #{xlNum,jdbcType=INTEGER},
+            total_num = #{totalNum,jdbcType=INTEGER},
+            complet_time = #{completTime,jdbcType=TIMESTAMP},
+            zt_status = #{ztStatus,jdbcType=CHAR},
+            zt_synchronized_time = #{ztSynchronizedTime,jdbcType=TIMESTAMP},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            create_user = #{createUser,jdbcType=VARCHAR},
+            modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            modify_user = #{modifyUser,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+     </update>
+	  
+	 <select id="selectAuditStatus" resultType="java.lang.String">
+	   select audit_status from make_mx_schedule_complet where id = #{id}
+	 </select>
+	  
+	 <update id="updateAuditStatus">
+	      update make_mx_schedule_complet set audit_status = NULL , zt_status = '0' where id = #{id}
+	 </update>
+</mapper>

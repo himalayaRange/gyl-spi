@@ -1,0 +1,5 @@
+mvn package
+
+1.运行Application
+
+2.mvn install

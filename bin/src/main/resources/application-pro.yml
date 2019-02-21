@@ -1,0 +1,8 @@
+server:
+  port: 443
+  ssl: 
+     key-store: classpath:cert/1541209219546.pfx
+     key-store-password: 1541209219546
+     keyStoreType: PKCS12
+  servlet:
+    path: /

@@ -1,0 +1,48 @@
+package com.ymy.xxb.module.e3.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.ymy.xxb.module.ModuleConstant;
+import com.ymy.xxb.module.e3.controller.ext.BasicController;
+/**
+ * E3 - > SCM  
+ * @author wangyi
+ */
+@Controller
+@RequestMapping(ModuleConstant.API_MODULE_E3_PREFIX)
+public class CompletionOrderPullController extends BasicController{
+	private static final Logger logger = LoggerFactory.getLogger(CompletionOrderPullController.class);
+	
+	private static final String API_CONTR_PREFIX = "/completionOrder/pull";
+	
+	/**
+	 * 撤销功能
+	 * @param request
+	 * @param response
+	 */
+	@ResponseBody
+	@RequestMapping(value = API_CONTR_PREFIX + "/cancle" , method = RequestMethod.POST)
+	public void cancle(HttpServletRequest request , HttpServletResponse response) {
+		logger.info("-------- start cancle method ---------");
+		doResult(response, true, "撤销功能测试通过！", "请求成功！");
+	} 
+	
+	/**
+	 * 退货通知单
+	 * @param request
+	 * @param response
+	 */
+	@ResponseBody
+	@RequestMapping(value = API_CONTR_PREFIX + "/returnSalesMemo" ,  method = RequestMethod.POST)
+	public void returnSalesMemo(HttpServletRequest request , HttpServletResponse response) {
+		logger.info("-------- start returnSalesMemo method ---------");
+		doResult(response, true, "退货通知单功能测试通过！", "请求成功！");
+	}
+	
+}

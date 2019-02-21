@@ -1,0 +1,8 @@
+#==========E3+ Configuration========================================================================================
+e3.ak=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMTFd7g1BmKHKuey+Qz9JO3/kcbk+M18VprYzz/aV3n4MDv5KUzrVAgtDst07PN/ycZi4Y/qyMKLdfxgnbO30T8CAwEAAQ==
+e3.pk=0782ee869ca541d59bcf3713c262fe3a
+e3.privateKey=MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAxMV3uDUGYocq57L5DP0k7f+RxuT4zXxWmtjPP9pXefgwO/kpTOtUCC0Oy3Ts83/JxmLhj+rIwot1/GCds7fRPwIDAQABAkBO54BidaDh0aH612HXO4ubhGhIgXjjrYBtB5PT3xJE7fSBlph02oY87ZyBsTlVnaeWN89sll8BkEo9Yh1cFHxBAiEA9GqQOjZNHCSoLAVFCKP0YEHldTl0eHwaUPhvtjc9HeMCIQDOGNdrMnzpfxuWpLMEvatkBlPA7Uc1d8dMUJTrjmKd9QIgSWU2qkRkI29ekNmEQXP6jm07WlhGgWfC/02bPjyYPcECIEoj9ZrClt0ItMwEg8H42WcqP4bv1OYPKMrzUh9LIX7hAiEA0aoYDNgGFPaVrKipQx8XvKSpOqovXIL7xAKJxKlQnx0=
+e3.username=admin
+e3.password=8888
+e3.tokenURL=http://218.242.249.187:11001/e3MiddlewareManageWeb/service/userService/login
+e3.createpurchaseasnbillURL=http://218.242.249.187:11001/e3MiddlewareStockWeb/serviceservice/purchaseInAsnBillService/foreignCreate

@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: dev
+# thymeleaf:
+#   prefix: classpath:/templates/
+#   suffix: .html
+#   cache: true
+    
+logging:
+  file: sysRootSpiLog.log
+  level: debug

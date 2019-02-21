@@ -1,0 +1,7 @@
+package com.ymy.xxb.module.e3.controller.ext;
+
+public abstract class BasicApiConfigController {
+	
+	public abstract void init();
+
+}

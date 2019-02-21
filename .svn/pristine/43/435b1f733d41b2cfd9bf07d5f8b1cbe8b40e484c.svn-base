@@ -1,0 +1,51 @@
+package com.ymy.xxb.adapter;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import com.ymy.xxb.filter.AccessTokenValidateInterceptor;
+import com.ymy.xxb.filter.CharacterEncodInterceptor;
+import com.ymy.xxb.filter.SecurityValidateInteceptor;
+import com.ymy.xxb.vo.AbstractFilterBean;
+import com.ymy.xxb.vo.AccessToken;
+import com.ymy.xxb.vo.SecurityConfigBean;
+/**
+ * 核心拦截器链
+ * created by wangyi.
+ */
+@Configuration
+public class CoreFilterChainWebMvcConfigurerAdapter extends  WebMvcConfigurerAdapter{
+	@Autowired
+	private AbstractFilterBean  abstractFilterBean;
+	
+	@Autowired
+	private AccessToken accessToken;
+	
+	@Autowired
+	private SecurityConfigBean securityConfigBean;
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		// Chain1 : 编码全部走拦截器
+		setInterceptorPattern(registry.addInterceptor(new CharacterEncodInterceptor()), AbstractFilterBean.stringToLists(abstractFilterBean.getChartSetFilterIgnoreUrl()));
+		// Chain2 : 获取Token，首页 不进行拦截，其他所有请求需要进行accessToken验证
+		setInterceptorPattern(registry.addInterceptor(new AccessTokenValidateInterceptor(accessToken)), AbstractFilterBean.stringToLists(abstractFilterBean.getAccessTokenFilterIgnoreUrl()));
+		// Chain3 : 接口授权验证，全部拦截
+		setInterceptorPattern(registry.addInterceptor(new SecurityValidateInteceptor(securityConfigBean)), AbstractFilterBean.stringToLists(abstractFilterBean.getSecrityValidateFilterIgnoreUrl()));
+		
+		super.addInterceptors(registry);
+	}
+
+	public InterceptorRegistration setInterceptorPattern(InterceptorRegistration interceptorRegistration , List<String> patternList) {
+		if(patternList != null && patternList.size() > 0 ) {
+			for(String pattern : patternList ) {
+				interceptorRegistration.addPathPatterns(pattern);
+			}
+			return interceptorRegistration;
+		}
+		return interceptorRegistration;
+	}
+}

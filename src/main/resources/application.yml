@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: dev
+
+# thymeleaf:
+#   prefix: classpath:/templates/
+#   suffix: .html
+#   cache: true
+  
+mybatis:
+   mapper-locations: classpath:mapping/*Mapper.xml  
+   type-aliases-package: com.ymy.xxb.module.e3.entity
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+    returnPageInfo: check
+
+logging:
+  file: spiContext.log
+  level: debug

@@ -1,0 +1,12 @@
+package com.ymy.xxb.module.e3.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.ymy.xxb.module.ModuleConstant;
+
+@Controller
+@RequestMapping(ModuleConstant.API_MODULE_E3_PREFIX)
+public class CompletionOrderPullController {
+	
+	
+}
